@@ -11,10 +11,14 @@ import 'package:meta/meta.dart';
 import 'package:task_04_navigation/converter_route.dart';
 import 'package:task_04_navigation/unit.dart';
 
+import 'converter_route.dart';
+
 // We use an underscore to indicate that these variables are private.
 // See https://www.dartlang.org/guides/language/effective-dart/design#libraries
 final _rowHeight = 100.0;
 final _borderRadius = BorderRadius.circular(_rowHeight / 2);
+
+// function _navigateToPageDetails() {}
 
 /// A custom [Category] widget.
 ///
@@ -46,8 +50,25 @@ class Category extends StatelessWidget {
         super(key: key);
 
   /// Navigates to the [ConverterRoute].
-  void _navigateToConverter(BuildContext context) {
+  void _navigateToConverter(BuildContext context, ) {
     // TODO: Using the Navigator, navigate to the [ConverterRoute]
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    }
+    Navigator.of(context).push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          elevation: 1.0,
+          title: Text(
+            name,
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          centerTitle: true,
+          backgroundColor: color[100],
+        ),
+        body: ConverterRoute(units: units, color: color),
+      );
+    }));
   }
 
   /// Builds a custom widget that shows [Category] information.
@@ -71,7 +92,7 @@ class Category extends StatelessWidget {
           // syntax.
           // TODO: Update this onTap property to call _navigateToConverter()
           onTap: () {
-            print('I was tapped!');
+            _navigateToConverter(context);
           },
           child: Padding(
             padding: EdgeInsets.all(8.0),
